@@ -101,7 +101,9 @@
     <section class="panel gallery" id="galleryScene">
       <div class="section-title">
         <button class="back" id="galleryHomeBtn">← halaman awal</button>
-        <h2>Beberapa alasan<br>aku menyukai <em>kita.</em></h2>
+        <h2 class="gallery-typing-title" aria-label="Cewek lucu kaya kamu harus bahagia terus!!">
+          <span class="gallery-typing-text" id="galleryTypingText" aria-hidden="true"></span>
+        </h2>
       </div>
       <div class="time-together gallery-time">
         <div class="time-heading">
@@ -127,6 +129,17 @@
         </div>
       </div>
     </section>
+
+    <dialog class="memory-lightbox" id="memoryLightbox" aria-labelledby="lightboxTitle">
+      <button class="lightbox-close" id="closeMemoryLightbox" type="button" aria-label="Tutup foto">×</button>
+      <figure>
+        <img id="lightboxImage" src="" alt="">
+        <figcaption>
+          <small id="lightboxDate"></small>
+          <h3 id="lightboxTitle"></h3>
+        </figcaption>
+      </figure>
+    </dialog>
 
     <section class="panel letter" id="letterScene">
       <button class="back" data-go="gallery">← kembali ke galeri</button>
@@ -171,11 +184,35 @@
 
     <section class="panel finale" id="finaleScene">
       <div class="confetti" id="confetti"></div>
-      <div class="big-heart"><span>♡</span><i>caca</i></div>
-      <p class="eyebrow">SATU PERMINTAAN KECIL</p>
-      <h2>Tetaplah jadi<br><em>rumah favoritku.</em></h2>
-      <p>Selamat bertambah usia, sayang.<br>Hari ini, besok, dan seterusnya—aku pilih kamu.</p>
-      <div class="final-buttons"><button class="primary" id="hugBtn">Kirim peluk virtual ♡</button><button class="text-link" id="restartBtn">putar dari awal ↻</button></div>
+      <div class="love-calculator" aria-labelledby="loveCalculatorTitle">
+        <p class="eyebrow">LOVE CALCULATOR</p>
+        <h2 id="loveCalculatorTitle">Dzaky <em>&amp;</em> Caca</h2>
+        <p class="calculator-copy">Seberapa besar cinta kita?</p>
+        <div class="love-meter" aria-label="Kalkulasi cinta Dzaky dan Caca">
+          <div class="love-person love-dzaky">
+            <span aria-hidden="true">♥</span>
+            <strong>Dzaky</strong>
+          </div>
+          <div class="love-progress-area">
+            <div class="calculator-result" id="calculatorResult" aria-live="polite">
+              <strong id="lovePercentage">?</strong>
+            </div>
+            <div class="love-progress" id="loveProgress" role="progressbar" aria-label="Progres kalkulasi cinta" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <i id="loveProgressFill"></i>
+              <span id="loveProgressHeart" aria-hidden="true">♥</span>
+            </div>
+            <small id="loveResultText">Tekan tombolnya untuk menghitung</small>
+          </div>
+          <div class="love-person love-caca">
+            <span aria-hidden="true">♥</span>
+            <strong>Caca</strong>
+          </div>
+        </div>
+        <button class="calculate-love" id="calculateLoveBtn" type="button">
+          <span>♡</span> Tap untuk kalkulasi
+        </button>
+        <button class="text-link calculator-restart" id="restartBtn">putar dari awal ↻</button>
+      </div>
     </section>
     <footer>Made With <b>♥</b> For Caca</footer>
   </main>

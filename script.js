@@ -7,7 +7,9 @@ const memories = [
   { src: "galeri/3.webp", orientation: "portrait", date: "Satu tatapan", title: "Dunia terasa hanya milik kita", note: "Caramu menatapku selalu berhasil membuat dunia di sekitar kita terasa lebih pelan." },
   { src: "galeri/4.webp", orientation: "portrait", fit: "cover", focus: 0.46, date: "Satu tanda kecil", title: "Kalau kamu bahagia, aku juga", note: "Satu jempol darimu cukup untuk mengingatkanku bahwa hal sederhana pun bisa terasa sangat manis." },
   { src: "galeri/5.webp", orientation: "portrait", fit: "cover", focus: 0.5, date: "Usil sekali lagi", title: "Wajah yang tidak pernah membosankan", note: "Foto ini terlalu lucu untuk hanya dilihat sekali—sama seperti tawamu yang selalu ingin kudengar lagi." },
-  { src: "galeri/6.webp", orientation: "landscape", date: "Senyum itu", title: "Yang selalu berhasil menenangkanku", note: "Di antara semua hal indah yang pernah kulihat, senyummu tetap menjadi salah satu favoritku." }
+  { src: "galeri/6.webp", orientation: "landscape", date: "Senyum itu", title: "Yang selalu berhasil menenangkanku", note: "Di antara semua hal indah yang pernah kulihat, senyummu tetap menjadi salah satu favoritku." },
+  { src: "galeri/7.webp", orientation: "portrait", date: "Sisi paling lucu", title: "Ekspresi paling gemas", note: "Ekspresi kecilmu selalu punya cara sendiri untuk membuat hariku lebih cerah." },
+  { src: "galeri/8.webp", orientation: "portrait", date: "Cantik favoritku", title: "Senyum manis itu", note: "Senyum sederhana yang selalu ingin kulihat lebih lama." }
 ];
 
 const letter = [
@@ -28,6 +30,9 @@ let memoryAnimationTimer = null;
 let memoryRenderToken = 0;
 let sceneTransitionTimer = null;
 let musicInterludeTimer = null;
+let loveCalculationTimer = null;
+let galleryTypingTimer = null;
+let galleryTypingFinishTimer = null;
 const backgroundMusic = document.getElementById("backgroundMusic");
 backgroundMusic.volume = 0.45;
 
@@ -182,11 +187,37 @@ function showScene(name) {
   }
   if (name === "gallery") {
     hideGalleryEnding();
+    startGalleryTyping();
     renderMemory();
     updateGalleryEnding();
   }
   app.scrollTop = 0;
   window.scrollTo({ top: 0, behavior: "auto" });
+}
+
+function startGalleryTyping() {
+  const message = "Cewek lucu kaya kamu harus bahagia terus!!";
+  const text = document.getElementById("galleryTypingText");
+  clearInterval(galleryTypingTimer);
+  clearTimeout(galleryTypingFinishTimer);
+  text.textContent = "";
+  text.classList.remove("complete");
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    text.textContent = message;
+    text.classList.add("complete");
+    return;
+  }
+
+  let characterIndex = 0;
+  galleryTypingTimer = setInterval(() => {
+    characterIndex += 1;
+    text.textContent = message.slice(0, characterIndex);
+    if (characterIndex === message.length) {
+      clearInterval(galleryTypingTimer);
+      galleryTypingFinishTimer = setTimeout(() => text.classList.add("complete"), 850);
+    }
+  }, 58);
 }
 
 function updateGalleryEnding() {
@@ -241,9 +272,26 @@ function animateLetterEntrance() {
 }
 
 function showFinalSurprise() {
-  chime("final");
+  chime("soft");
+  const result = document.getElementById("calculatorResult");
+  const percentage = document.getElementById("lovePercentage");
+  const resultText = document.getElementById("loveResultText");
+  const calculateButton = document.getElementById("calculateLoveBtn");
+  const loveMeter = document.querySelector(".love-meter");
+  const progressBar = document.getElementById("loveProgress");
+  clearInterval(loveCalculationTimer);
+  document.getElementById("confetti").innerHTML = "";
+  result.classList.remove("calculating", "revealed");
+  loveMeter.classList.remove("revealed");
+  percentage.textContent = "?";
+  resultText.textContent = "Tekan tombolnya untuk menghitung";
+  document.getElementById("loveProgressFill").style.width = "0%";
+  document.getElementById("loveProgressHeart").style.left = "0%";
+  progressBar.setAttribute("aria-valuenow", "0");
+  progressBar.removeAttribute("aria-valuetext");
+  calculateButton.disabled = false;
+  calculateButton.innerHTML = "<span>♡</span> Tap untuk kalkulasi";
   showScene("finale");
-  makeConfetti();
 }
 
 function chime(type = "soft") {
@@ -284,12 +332,12 @@ function renderMemory() {
 
   gallery.innerHTML = orderedMemories.map(({ item, originalIndex }, index) => `
     <article class="memory-item" style="--memory-delay:${index * 0.11}s">
-      <div class="polaroid ${item.orientation}">
+      <button class="polaroid memory-open ${item.orientation}" type="button" data-open-memory="${originalIndex}" aria-label="Buka foto: ${item.title}">
         <div class="photo ${item.orientation}${item.fit === "cover" ? " fit-cover" : ""}" style="--photo-url:url('${item.src}')">
           <img src="${item.src}" alt="${item.title} — foto kenangan berdua" loading="${index === 0 ? "eager" : "lazy"}" decoding="async" style="object-position:50% ${(item.focus ?? 0.5) * 100}%">
         </div>
         <div class="photo-caption"><span>${item.date}</span><b>${item.title}</b></div>
-      </div>
+      </button>
       <div class="memory-actions">
         <button class="save-memory" type="button" data-save-memory="${originalIndex}"><span>↓</span> Simpan kenangan</button>
       </div>
@@ -298,6 +346,26 @@ function renderMemory() {
   gallery.querySelectorAll("[data-save-memory]").forEach(button => {
     button.addEventListener("click", () => saveMemoryCard(Number(button.dataset.saveMemory), button));
   });
+  gallery.querySelectorAll("[data-open-memory]").forEach(button => {
+    button.addEventListener("click", () => openMemoryLightbox(Number(button.dataset.openMemory)));
+  });
+}
+
+function openMemoryLightbox(index) {
+  const item = memories[index];
+  const lightbox = document.getElementById("memoryLightbox");
+  const image = document.getElementById("lightboxImage");
+  image.src = item.src;
+  image.alt = `${item.title} — foto kenangan berdua`;
+  image.style.objectPosition = `50% ${(item.focus ?? 0.5) * 100}%`;
+  document.getElementById("lightboxDate").textContent = item.date;
+  document.getElementById("lightboxTitle").textContent = item.title;
+  lightbox.showModal();
+}
+
+function closeMemoryLightbox() {
+  const lightbox = document.getElementById("memoryLightbox");
+  if (lightbox.open) lightbox.close();
 }
 
 function readLetter() {
@@ -428,7 +496,8 @@ async function saveMemoryCard(index = memoryIndex, triggerButton = null) {
   const palettes = [
     ["#dca7aa", "#7b3047"], ["#edc98b", "#ad5266"],
     ["#a9bba9", "#764359"], ["#df9ba7", "#67263b"],
-    ["#f0ceb7", "#a14f63"], ["#925269", "#e7b890"]
+    ["#f0ceb7", "#a14f63"], ["#925269", "#e7b890"],
+    ["#b7aaa5", "#5b3445"], ["#d7b7ad", "#725063"]
   ];
   const canvas = document.createElement("canvas");
   canvas.width = 1080;
@@ -580,6 +649,11 @@ if (homeBtn) {
 document.getElementById("galleryHomeBtn").addEventListener("click", () => {
   document.getElementById("restartBtn").click();
 });
+const memoryLightbox = document.getElementById("memoryLightbox");
+document.getElementById("closeMemoryLightbox").addEventListener("click", closeMemoryLightbox);
+memoryLightbox.addEventListener("click", event => {
+  if (event.target === memoryLightbox) closeMemoryLightbox();
+});
 const soundBtn = document.getElementById("soundBtn");
 if (soundBtn) {
   soundBtn.addEventListener("click", event => {
@@ -625,11 +699,53 @@ envelope.addEventListener("keydown", event => {
   readLetter();
 });
 document.getElementById("letterBtn").addEventListener("click", readLetter);
-document.getElementById("hugBtn").addEventListener("click", () => {
-  chime("final");
-  for (let index = 0; index < 15; index++) {
-    setTimeout(() => floatingHeart(innerWidth / 2 + (Math.random() - .5) * 260, innerHeight / 2 + (Math.random() - .5) * 100, index % 2 ? "♡" : "♥"), index * 45);
-  }
+document.getElementById("calculateLoveBtn").addEventListener("click", event => {
+  const button = event.currentTarget;
+  if (button.disabled) return;
+
+  const result = document.getElementById("calculatorResult");
+  const percentage = document.getElementById("lovePercentage");
+  const resultText = document.getElementById("loveResultText");
+  const loveMeter = document.querySelector(".love-meter");
+  const progressBar = document.getElementById("loveProgress");
+  const progressFill = document.getElementById("loveProgressFill");
+  const progressHeart = document.getElementById("loveProgressHeart");
+  let progressValue = 0;
+
+  button.disabled = true;
+  button.innerHTML = "<span>♡</span> Menghitung cinta...";
+  result.classList.add("calculating");
+  resultText.textContent = "Mencocokkan dua hati...";
+  percentage.textContent = "0%";
+
+  loveCalculationTimer = setInterval(() => {
+    progressValue = Math.min(100, progressValue + (progressValue < 72 ? 3 : 2));
+    percentage.textContent = `${progressValue}%`;
+    progressFill.style.width = `${progressValue}%`;
+    progressHeart.style.left = `${progressValue}%`;
+    progressBar.setAttribute("aria-valuenow", String(progressValue));
+
+    if (progressValue >= 72) resultText.textContent = "Hampir sampai... cintanya terlalu besar";
+    else if (progressValue >= 36) resultText.textContent = "Dua hati semakin terhubung...";
+
+    if (progressValue === 100) {
+      clearInterval(loveCalculationTimer);
+      setTimeout(() => {
+        result.classList.remove("calculating");
+        result.classList.add("revealed");
+        loveMeter.classList.add("revealed");
+        percentage.textContent = "unlimited%";
+        resultText.textContent = "Cinta Dzaky & Caca tidak ada batasnya ♡";
+        progressBar.setAttribute("aria-valuetext", "unlimited persen");
+        button.innerHTML = "<span>♥</span> Unlimited selamanya";
+        chime("final");
+        makeConfetti();
+        for (let index = 0; index < 15; index++) {
+          setTimeout(() => floatingHeart(innerWidth / 2 + (Math.random() - .5) * 260, innerHeight / 2 + (Math.random() - .5) * 100, index % 2 ? "♡" : "♥"), index * 45);
+        }
+      }, 420);
+    }
+  }, 380);
 });
 document.getElementById("restartBtn").addEventListener("click", () => {
   letterStep = 0;
