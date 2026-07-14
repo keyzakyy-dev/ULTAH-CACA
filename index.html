@@ -73,6 +73,20 @@
         <button class="start-music" id="startMusicBtn"><span>♡</span>KLIK INIII</button>
         <small>percaya sama aku, yaaaa</small>
       </div>
+      <div class="music-player-loading" id="musicPlayerLoading" aria-hidden="true">
+        <div class="music-player-card">
+          <p class="eyebrow">NOW PLAYING · OUR SONG</p>
+          <div class="music-record" aria-hidden="true"><span>♡</span><i></i></div>
+          <div class="music-player-copy">
+            <small>LAGU YANG SELALU MEMBAWAKU PULANG</small>
+            <h2>Musik ini yang bikin aku<br><em>selalu inget kamu.</em></h2>
+            <p>Setiap nadanya seperti menyimpan satu bagian kecil dari kita.</p>
+          </div>
+          <div class="music-equalizer" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="music-timeline" role="progressbar" aria-label="Menyiapkan kejutan berikutnya" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="musicLoadingProgress"></i></div>
+          <div class="music-timing"><span id="musicLoadingTime">0:00</span><small id="musicLoadingStatus">memutar kenangan kita...</small><span>0:05</span></div>
+        </div>
+      </div>
       <div class="gift-content waiting" id="giftContent">
         <p class="eyebrow">20 JULY · YOUR SPECIAL DAYYY</p>
         <h1>ada sesuatu buat kamuu,<br><em>Sayang...</em></h1>
@@ -116,19 +130,31 @@
 
     <section class="panel letter" id="letterScene">
       <button class="back" data-go="gallery">← kembali ke galeri</button>
+      <div class="letter-scene-intro">
+        <p class="eyebrow">SEBUAH SURAT KECIL UNTUKMU</p>
+        <h2>Untuk hati yang<br><em>selalu kupilih.</em></h2>
+        <p>Buka perlahan—ada rasa sayang yang sengaja kusimpan di setiap katanya.</p>
+      </div>
+      <div class="letter-keepsakes" aria-hidden="true">
+        <span class="keepsake-date"><small>OUR DAY</small><b>27 · 02</b><i>♡</i></span>
+        <span class="keepsake-note">dibaca pelan-pelan,<br>dengan senyum ♡</span>
+      </div>
       <div class="envelope-wrap">
-        <div class="envelope" id="envelope">
+        <div class="letter-sparkles" aria-hidden="true"><span>✦</span><span>♡</span><span>·</span><span>♥</span></div>
+        <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Ketuk untuk membuka surat" aria-expanded="false">
           <div class="env-back"></div>
           <article class="paper">
             <small>20 Juli 2026</small><h2>Untuk Caca,</h2>
             <div id="letterBody"></div>
             <p class="signature" id="signature">Dengan seluruh sayangku,<br><b>orang yang beruntung memilikimu ♡</b></p>
           </article>
-          <div class="env-front"></div><div class="env-flap"></div><div class="seal">C</div>
+          <div class="env-front"></div><div class="env-flap"></div>
+          <div class="postage-stamp" aria-hidden="true"><span>♡</span><small>FOR CACA</small></div>
+          <div class="seal">C</div>
         </div>
         <div class="letter-action">
-          <p id="letterHint">Ada beberapa kata yang sengaja kusimpan di sini.</p>
-          <button class="primary" id="letterBtn">Buka suratnya <span>♡</span></button>
+          <p id="letterHint">Ketuk amplopnya untuk membuka surat ♡</p>
+          <button class="primary letter-continue waiting" id="letterBtn">Baca selanjutnya <span>↓</span></button>
           <div class="progress"><i id="letterProgress"></i></div>
         </div>
       </div>

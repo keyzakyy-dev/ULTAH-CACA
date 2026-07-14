@@ -27,6 +27,7 @@ let memoryTransitionTimer = null;
 let memoryAnimationTimer = null;
 let memoryRenderToken = 0;
 let sceneTransitionTimer = null;
+let musicInterludeTimer = null;
 const backgroundMusic = document.getElementById("backgroundMusic");
 backgroundMusic.volume = 0.45;
 
@@ -309,6 +310,9 @@ function readLetter() {
     document.querySelector(".envelope-wrap").classList.add("letter-open");
     document.getElementById("app").classList.add("letter-reading");
     hint.textContent = "Baca pelan-pelan, ya...";
+    button.classList.remove("waiting");
+    envelope.setAttribute("aria-expanded", "true");
+    envelope.setAttribute("tabindex", "-1");
     chime();
   }
   if (letterStep < letter.length) {
@@ -322,6 +326,46 @@ function readLetter() {
   } else {
     showLetterEnding();
   }
+}
+
+function playMusicInterlude() {
+  const gate = document.getElementById("musicGate");
+  const player = document.getElementById("musicPlayerLoading");
+  const progress = document.getElementById("musicLoadingProgress");
+  const timeline = document.querySelector(".music-timeline");
+  const time = document.getElementById("musicLoadingTime");
+  const status = document.getElementById("musicLoadingStatus");
+  let value = 0;
+
+  gate.classList.add("leaving");
+  setTimeout(() => {
+    gate.style.display = "none";
+    player.setAttribute("aria-hidden", "false");
+    player.classList.add("active");
+
+    clearInterval(musicInterludeTimer);
+    musicInterludeTimer = setInterval(() => {
+      value = Math.min(100, value + 2);
+      progress.style.width = `${value}%`;
+      timeline.setAttribute("aria-valuenow", String(value));
+      time.textContent = `0:0${Math.min(5, Math.floor(value / 20))}`;
+      if (value >= 62) status.textContent = "sebentar lagi, sayang...";
+
+      if (value >= 100) {
+        clearInterval(musicInterludeTimer);
+        status.textContent = "kenangannya sudah siap ♡";
+        setTimeout(() => {
+          player.classList.add("leaving");
+          setTimeout(() => {
+            player.style.display = "none";
+            const content = document.getElementById("giftContent");
+            content.classList.remove("waiting");
+            content.classList.add("entering");
+          }, 620);
+        }, 650);
+      }
+    }, 90);
+  }, 500);
 }
 
 function makeConfetti() {
@@ -516,6 +560,7 @@ document.getElementById("giftBtn").addEventListener("pointerdown", openGift);
 document.getElementById("openHint").addEventListener("click", openGift);
 document.getElementById("openHint").addEventListener("pointerdown", openGift);
 document.getElementById("startMusicBtn").addEventListener("click", async () => {
+  document.getElementById("startMusicBtn").disabled = true;
   soundOn = true;
   await startMusic();
   giftReady = true;
@@ -524,14 +569,7 @@ document.getElementById("startMusicBtn").addEventListener("click", async () => {
   if (soundBtn) {
     soundBtn.innerHTML = "<span>♪</span> musik";
   }
-  const gate = document.getElementById("musicGate");
-  gate.classList.add("leaving");
-  setTimeout(() => {
-    gate.style.display = "none";
-    const content = document.getElementById("giftContent");
-    content.classList.remove("waiting");
-    content.classList.add("entering");
-  }, 500);
+  playMusicInterlude();
 });
 const homeBtn = document.getElementById("homeBtn");
 if (homeBtn) {
@@ -577,6 +615,15 @@ document.getElementById("rereadLetter").addEventListener("click", () => {
   hideLetterEnding();
   document.getElementById("app").classList.add("letter-reading");
 });
+const envelope = document.getElementById("envelope");
+envelope.addEventListener("click", () => {
+  if (letterStep === 0) readLetter();
+});
+envelope.addEventListener("keydown", event => {
+  if (letterStep !== 0 || !["Enter", " "].includes(event.key)) return;
+  event.preventDefault();
+  readLetter();
+});
 document.getElementById("letterBtn").addEventListener("click", readLetter);
 document.getElementById("hugBtn").addEventListener("click", () => {
   chime("final");
@@ -598,8 +645,11 @@ document.getElementById("restartBtn").addEventListener("click", () => {
   document.getElementById("letterBody").innerHTML = "";
   document.getElementById("signature").classList.remove("show");
   document.getElementById("letterProgress").style.width = "0";
-  document.getElementById("letterBtn").innerHTML = "Buka suratnya <span>♡</span>";
-  document.getElementById("letterHint").textContent = "Ada beberapa kata yang sengaja kusimpan di sini.";
+  document.getElementById("letterBtn").classList.add("waiting");
+  document.getElementById("letterBtn").innerHTML = "Baca selanjutnya <span>↓</span>";
+  document.getElementById("letterHint").textContent = "Ketuk amplopnya untuk membuka surat ♡";
+  document.getElementById("envelope").setAttribute("aria-expanded", "false");
+  document.getElementById("envelope").setAttribute("tabindex", "0");
   showScene("gift");
 });
 document.getElementById("app").addEventListener("pointerdown", event => {
