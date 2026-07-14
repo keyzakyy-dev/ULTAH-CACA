@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8eee9">
+  <title>Untuk Caca, Dengan Cinta</title>
+  <meta name="description" content="Sebuah kado ulang tahun kecil untuk Caca.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="intro-locked">
+  <div class="opening-experience" id="openingExperience" aria-live="polite">
+    <section class="opening-screen loading-screen active" id="loadingScreen" aria-label="Menyiapkan kejutan">
+      <div class="opening-glow" aria-hidden="true"></div>
+      <div class="loading-hearts" aria-hidden="true">
+        <span>♡</span><span>♥</span><span>♡</span>
+      </div>
+      <p class="opening-kicker">UNTUK SATU-SATUNYA KAMU</p>
+      <h1>Sedang merangkai<br><em>sedikit cinta...</em></h1>
+      <p class="loading-message" id="loadingMessage">Mengumpulkan semua kenangan manis kita</p>
+      <div class="love-loader" role="progressbar" aria-label="Memuat kejutan" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <i id="loadingProgress"></i>
+      </div>
+      <small id="loadingPercent">0%</small>
+    </section>
+
+    <section class="opening-screen pin-screen" id="pinScreen" aria-label="Masukkan PIN kenangan" aria-hidden="true">
+      <div class="pin-card">
+        <div class="pin-seal" aria-hidden="true"><span>♡</span></div>
+        <p class="opening-kicker">SATU RAHASIA KECIL</p>
+        <h2>Masukkan tanggal<br><em>cerita kita dimulai.</em></h2>
+        <p class="pin-hint">Tanggal dan bulan pertama kali kita bertemu</p>
+        <div class="pin-dots" id="pinDots" aria-label="PIN 4 angka">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <p class="pin-feedback" id="pinFeedback" role="status">Format: DDMM</p>
+        <div class="pin-keypad" id="pinKeypad" aria-label="Papan angka">
+          <button type="button" data-pin="1">1</button><button type="button" data-pin="2">2</button><button type="button" data-pin="3">3</button>
+          <button type="button" data-pin="4">4</button><button type="button" data-pin="5">5</button><button type="button" data-pin="6">6</button>
+          <button type="button" data-pin="7">7</button><button type="button" data-pin="8">8</button><button type="button" data-pin="9">9</button>
+          <button type="button" class="pin-empty" tabindex="-1" aria-hidden="true"></button><button type="button" data-pin="0">0</button><button type="button" class="pin-delete" id="pinDelete" aria-label="Hapus angka">⌫</button>
+        </div>
+        <small>empat angka yang hanya kita berdua tahu ♡</small>
+      </div>
+    </section>
+  </div>
+  <!-- Letakkan file musik.mp3 di folder yang sama dengan index.html -->
+  <audio id="backgroundMusic" autoplay loop preload="auto">
+    <source src="musik.mp3" type="audio/mpeg">
+  </audio>
+  <main class="app scene-gift music-locked" id="app" aria-hidden="true">
+    <div class="grain"></div><div class="ambient one"></div><div class="ambient two"></div><div class="stars"></div>
+    <div class="love-background" aria-hidden="true">
+      <span style="--x:6%;--size:18px;--duration:12s;--delay:-2s;--drift:45px">♡</span>
+      <span style="--x:14%;--size:10px;--duration:9s;--delay:-7s;--drift:-30px">♥</span>
+      <span style="--x:23%;--size:24px;--duration:15s;--delay:-5s;--drift:55px">♡</span>
+      <span style="--x:31%;--size:13px;--duration:11s;--delay:-9s;--drift:-42px">♡</span>
+      <span style="--x:40%;--size:9px;--duration:8s;--delay:-3s;--drift:28px">♥</span>
+      <span style="--x:49%;--size:20px;--duration:14s;--delay:-11s;--drift:-48px">♡</span>
+      <span style="--x:58%;--size:12px;--duration:10s;--delay:-5s;--drift:35px">♥</span>
+      <span style="--x:66%;--size:27px;--duration:16s;--delay:-8s;--drift:-60px">♡</span>
+      <span style="--x:74%;--size:11px;--duration:9s;--delay:-1s;--drift:26px">♡</span>
+      <span style="--x:82%;--size:19px;--duration:13s;--delay:-10s;--drift:-38px">♥</span>
+      <span style="--x:91%;--size:14px;--duration:11s;--delay:-6s;--drift:42px">♡</span>
+      <span style="--x:96%;--size:8px;--duration:8s;--delay:-4s;--drift:-20px">♥</span>
+    </div>
+
+    <section class="panel gift active" id="giftScene">
+      <div class="music-gate" id="musicGate">
+        <span class="music-orbit">♡</span>
+        <h1><em>coba kamu klik ini sayang..</em></h1>
+        <p class="intro">pasti suasana bikin terasa special bangettt ♡</p>
+        <button class="start-music" id="startMusicBtn"><span>♡</span>KLIK INIII</button>
+        <small>percaya sama aku, yaaaa</small>
+      </div>
+      <div class="gift-content waiting" id="giftContent">
+        <p class="eyebrow">20 JULY · YOUR SPECIAL DAYYY</p>
+        <h1>ada sesuatu buat kamuu,<br><em>Sayang...</em></h1>
+        <button class="gift-button" id="giftBtn" aria-label="Buka kado">
+          <span class="spark s1">✦</span><span class="spark s2">·</span><span class="spark s3">♥</span>
+          <span class="gift-glow"></span><span class="gift-lid"><i></i><b></b></span><span class="gift-box"><i></i></span>
+        </button>
+        <button class="open-hint" id="openHint">Klik SAYANGG <i>↓</i></button>
+      </div>
+    </section>
+
+    <section class="panel gallery" id="galleryScene">
+      <div class="section-title">
+        <button class="back" id="galleryHomeBtn">← halaman awal</button>
+        <h2>Beberapa alasan<br>aku menyukai <em>kita.</em></h2>
+      </div>
+      <div class="time-together gallery-time">
+        <div class="time-heading">
+          <span>♡</span>
+          <div><small>KITA SUDAH BERSAMA SELAMA</small><p>Sejak 27 Februari 2025</p></div>
+        </div>
+        <div class="time-grid" aria-label="Durasi waktu bersama">
+          <div><b id="yearsTogether">0</b><span>tahun</span></div>
+          <div><b id="monthsTogether">0</b><span>bulan</span></div>
+          <div><b id="daysTogether">0</b><span>hari</span></div>
+          <div><b id="hoursTogether">0</b><span>jam</span></div>
+          <div><b id="minutesTogether">0</b><span>menit</span></div>
+          <div><b id="secondsTogether">0</b><span>detik</span></div>
+        </div>
+      </div>
+      <div class="memories-grid" id="memoryGallery" aria-label="Semua foto kenangan kita"></div>
+      <div class="gallery-ending" id="galleryEnding">
+        <div class="ending-heart"><span>♡</span><i>✦</i></div>
+        <h2 id="galleryEndingTitle">Buka suratnya<br>sekarang, <em>yuk?</em></h2>
+        <p id="galleryEndingText">Ada beberapa kata yang dari tadi menunggu untuk kamu baca.</p>
+        <div class="ending-actions">
+          <button class="primary" id="openLetterAfterGallery">Buka suratnya <span>♡</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel letter" id="letterScene">
+      <button class="back" data-go="gallery">← kembali ke galeri</button>
+      <div class="envelope-wrap">
+        <div class="envelope" id="envelope">
+          <div class="env-back"></div>
+          <article class="paper">
+            <small>20 Juli 2026</small><h2>Untuk Caca,</h2>
+            <div id="letterBody"></div>
+            <p class="signature" id="signature">Dengan seluruh sayangku,<br><b>orang yang beruntung memilikimu ♡</b></p>
+          </article>
+          <div class="env-front"></div><div class="env-flap"></div><div class="seal">C</div>
+        </div>
+        <div class="letter-action">
+          <p id="letterHint">Ada beberapa kata yang sengaja kusimpan di sini.</p>
+          <button class="primary" id="letterBtn">Buka suratnya <span>♡</span></button>
+          <div class="progress"><i id="letterProgress"></i></div>
+        </div>
+      </div>
+      <div class="letter-ending" id="letterEnding">
+        <div class="ending-heart"><span>♡</span><i>✦</i></div>
+        <h2 id="letterEndingTitle">Lihat foto-foto kita<br>sekarang, <em>yuk?</em></h2>
+        <p id="letterEndingText">Suratnya sudah selesai, tapi masih ada beberapa kenangan yang ingin aku tunjukkan.</p>
+        <div class="ending-actions">
+          <button class="primary" id="continueAfterLetter">Buka galerinya <span>♡</span></button>
+          <button class="ending-replay" id="rereadLetter">Baca suratnya lagi ↻</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel finale" id="finaleScene">
+      <div class="confetti" id="confetti"></div>
+      <div class="big-heart"><span>♡</span><i>caca</i></div>
+      <p class="eyebrow">SATU PERMINTAAN KECIL</p>
+      <h2>Tetaplah jadi<br><em>rumah favoritku.</em></h2>
+      <p>Selamat bertambah usia, sayang.<br>Hari ini, besok, dan seterusnya—aku pilih kamu.</p>
+      <div class="final-buttons"><button class="primary" id="hugBtn">Kirim peluk virtual ♡</button><button class="text-link" id="restartBtn">putar dari awal ↻</button></div>
+    </section>
+    <footer>Made With <b>♥</b> For Caca</footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
