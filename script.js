@@ -277,7 +277,11 @@ function openGift() {
 
 function renderMemory() {
   const gallery = document.getElementById("memoryGallery");
-  gallery.innerHTML = memories.map((item, index) => `
+  const orderedMemories = memories
+    .map((item, originalIndex) => ({ item, originalIndex }))
+    .sort((first, second) => Number(first.item.orientation === "portrait") - Number(second.item.orientation === "portrait"));
+
+  gallery.innerHTML = orderedMemories.map(({ item, originalIndex }, index) => `
     <article class="memory-item" style="--memory-delay:${index * 0.11}s">
       <div class="polaroid ${item.orientation}">
         <div class="photo ${item.orientation}${item.fit === "cover" ? " fit-cover" : ""}" style="--photo-url:url('${item.src}')">
@@ -286,7 +290,7 @@ function renderMemory() {
         <div class="photo-caption"><span>${item.date}</span><b>${item.title}</b></div>
       </div>
       <div class="memory-actions">
-        <button class="save-memory" type="button" data-save-memory="${index}"><span>↓</span> Simpan kenangan</button>
+        <button class="save-memory" type="button" data-save-memory="${originalIndex}"><span>↓</span> Simpan kenangan</button>
       </div>
     </article>
   `).join("");

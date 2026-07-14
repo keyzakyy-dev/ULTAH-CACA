@@ -118,3 +118,6 @@ body{overflow-x:hidden}.scene-gallery{overflow-x:clip;overflow-y:visible;touch-a
 @keyframes galleryMobileFloat{0%,100%{transform:rotate(-1deg) translateY(0)}50%{transform:rotate(.35deg) translateY(-6px)}}@keyframes galleryMobileFloatEven{0%,100%{transform:rotate(1deg) translateY(0)}50%{transform:rotate(-.35deg) translateY(-6px)}}
 @media(max-width:700px){.scene-gallery{padding-bottom:34px}.scene-gallery .gallery{padding-bottom:0}.scene-gallery .memories-grid{margin-bottom:36px}.scene-gallery .memory-item .polaroid,.scene-gallery .polaroid.portrait{animation:galleryMobileFloat 6.8s ease-in-out infinite!important}.scene-gallery .memory-item:nth-child(even) .polaroid{animation-name:galleryMobileFloatEven!important}.scene-gallery .memory-item:nth-child(2n){--memory-delay:.08s}.scene-gallery .memory-item:nth-child(3n){--memory-delay:.16s}}
 @media(prefers-reduced-motion:reduce){.scene-gallery .memory-item .polaroid{animation:none!important}}
+
+/* Foto menyatu dengan frame; hanya container polaroid yang bergerak */
+.scene-gallery .photo,.scene-gallery .photo img{animation:none!important}.scene-gallery .photo img{transform:none!important}.scene-gallery .photo:before{animation:none!important}
