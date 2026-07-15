@@ -8,8 +8,8 @@ const memories = [
   { src: "galeri/4.webp", orientation: "portrait", fit: "cover", focus: 0.46, date: "Satu tanda kecil", title: "Kalau kamu bahagia, aku juga", note: "Satu jempol darimu cukup untuk mengingatkanku bahwa hal sederhana pun bisa terasa sangat manis." },
   { src: "galeri/5.webp", orientation: "portrait", fit: "cover", focus: 0.5, date: "Usil sekali lagi", title: "Wajah yang tidak pernah membosankan", note: "Foto ini terlalu lucu untuk hanya dilihat sekali—sama seperti tawamu yang selalu ingin kudengar lagi." },
   { src: "galeri/6.webp", orientation: "landscape", date: "Senyum itu", title: "Yang selalu berhasil menenangkanku", note: "Di antara semua hal indah yang pernah kulihat, senyummu tetap menjadi salah satu favoritku." },
-  { src: "galeri/7.webp", orientation: "portrait", date: "Sisi paling lucu", title: "Ekspresi paling gemas", note: "Ekspresi kecilmu selalu punya cara sendiri untuk membuat hariku lebih cerah." },
-  { src: "galeri/8.webp", orientation: "portrait", date: "Cantik favoritku", title: "Senyum manis itu", note: "Senyum sederhana yang selalu ingin kulihat lebih lama." }
+  { src: "galeri/7.webp", orientation: "portrait", fit: "cover", focus: 0.5, date: "Sisi paling lucu", title: "Ekspresi paling gemas", note: "Ekspresi kecilmu selalu punya cara sendiri untuk membuat hariku lebih cerah." },
+  { src: "galeri/8.webp", orientation: "portrait", fit: "cover", focus: 0.48, date: "Cantik favoritku", title: "Senyum manis itu", note: "Senyum sederhana yang selalu ingin kulihat lebih lama." }
 ];
 
 const letter = [
@@ -338,14 +338,8 @@ function renderMemory() {
         </div>
         <div class="photo-caption"><span>${item.date}</span><b>${item.title}</b></div>
       </button>
-      <div class="memory-actions">
-        <button class="save-memory" type="button" data-save-memory="${originalIndex}"><span>↓</span> Simpan kenangan</button>
-      </div>
     </article>
   `).join("");
-  gallery.querySelectorAll("[data-save-memory]").forEach(button => {
-    button.addEventListener("click", () => saveMemoryCard(Number(button.dataset.saveMemory), button));
-  });
   gallery.querySelectorAll("[data-open-memory]").forEach(button => {
     button.addEventListener("click", () => openMemoryLightbox(Number(button.dataset.openMemory)));
   });
@@ -719,7 +713,7 @@ document.getElementById("calculateLoveBtn").addEventListener("click", event => {
   percentage.textContent = "0%";
 
   loveCalculationTimer = setInterval(() => {
-    progressValue = Math.min(100, progressValue + (progressValue < 72 ? 3 : 2));
+    progressValue = Math.min(100, progressValue + (progressValue < 72 ? 4 : 3));
     percentage.textContent = `${progressValue}%`;
     progressFill.style.width = `${progressValue}%`;
     progressHeart.style.left = `${progressValue}%`;
@@ -743,7 +737,7 @@ document.getElementById("calculateLoveBtn").addEventListener("click", event => {
         for (let index = 0; index < 15; index++) {
           setTimeout(() => floatingHeart(innerWidth / 2 + (Math.random() - .5) * 260, innerHeight / 2 + (Math.random() - .5) * 100, index % 2 ? "♡" : "♥"), index * 45);
         }
-      }, 420);
+      }, 260);
     }
   }, 380);
 });
