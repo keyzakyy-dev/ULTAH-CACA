@@ -2,21 +2,22 @@
 // PERSONALISASI CERITA DI SINI
 // ================================
 const memories = [
-  { src: "galeri/1.webp", orientation: "landscape", date: "Senyum favorit", title: "Saat bahagia terlihat sederhana", note: "Aku suka versi kita yang ini—dekat, bahagia, dan tidak perlu menjadi siapa-siapa." },
-  { src: "galeri/2.webp", orientation: "portrait", date: "Sisi paling usil", title: "Tertawa tanpa alasan", note: "Kalau bersamamu, bahkan wajah paling iseng pun menjadi kenangan yang ingin kusimpan." },
-  { src: "galeri/3.webp", orientation: "portrait", date: "Satu tatapan", title: "Dunia terasa hanya milik kita", note: "Caramu menatapku selalu berhasil membuat dunia di sekitar kita terasa lebih pelan." },
-  { src: "galeri/4.webp", orientation: "portrait", fit: "cover", focus: 0.46, date: "Satu tanda kecil", title: "Kalau kamu bahagia, aku juga", note: "Satu jempol darimu cukup untuk mengingatkanku bahwa hal sederhana pun bisa terasa sangat manis." },
-  { src: "galeri/5.webp", orientation: "portrait", fit: "cover", focus: 0.5, date: "Usil sekali lagi", title: "Wajah yang tidak pernah membosankan", note: "Foto ini terlalu lucu untuk hanya dilihat sekali—sama seperti tawamu yang selalu ingin kudengar lagi." },
-  { src: "galeri/6.webp", orientation: "landscape", date: "Senyum itu", title: "Yang selalu berhasil menenangkanku", note: "Di antara semua hal indah yang pernah kulihat, senyummu tetap menjadi salah satu favoritku." },
-  { src: "galeri/7.webp", orientation: "portrait", fit: "cover", focus: 0.5, date: "Sisi paling lucu", title: "Ekspresi paling gemas", note: "Ekspresi kecilmu selalu punya cara sendiri untuk membuat hariku lebih cerah." },
-  { src: "galeri/8.webp", orientation: "portrait", fit: "cover", focus: 0.48, date: "Cantik favoritku", title: "Senyum manis itu", note: "Senyum sederhana yang selalu ingin kulihat lebih lama." }
+  { src: "galeri/1.webp", orientation: "landscape", date: "#1", title: "", note: "Aku suka versi kita yang ini—dekat, bahagia, dan tidak perlu menjadi siapa-siapa." },
+  { src: "galeri/2.webp", orientation: "portrait", date: "#2", title: "", note: "Kalau bersamamu, bahkan wajah paling iseng pun menjadi kenangan yang ingin kusimpan." },
+  { src: "galeri/3.webp", orientation: "portrait", date: "#3", title: "", note: "Caramu menatapku selalu berhasil membuat dunia di sekitar kita terasa lebih pelan." },
+  { src: "galeri/4.webp", orientation: "portrait", fit: "cover", focus: 0.46, date: "#4", title: "", note: "Satu jempol darimu cukup untuk mengingatkanku bahwa hal sederhana pun bisa terasa sangat manis." },
+  { src: "galeri/5.webp", orientation: "portrait", fit: "cover", focus: 0.5, date: "#5", title: "", note: "Foto ini terlalu lucu untuk hanya dilihat sekali—sama seperti tawamu yang selalu ingin kudengar lagi." },
+  { src: "galeri/6.webp", orientation: "landscape", date: "#6", title: "", note: "Di antara semua hal indah yang pernah kulihat, senyummu tetap menjadi salah satu favoritku." },
+  { src: "galeri/7.webp", orientation: "portrait", fit: "cover", focus: 0.5, date: "#7", title: "", note: "Ekspresi kecilmu selalu punya cara sendiri untuk membuat hariku lebih cerah." },
+  { src: "galeri/8.webp", orientation: "portrait", fit: "cover", focus: 0.48, date: "#8", title: "", note: "Senyum sederhana yang selalu ingin kulihat lebih lama." }
 ];
 
 const letter = [
-  "Selamat ulang tahun untuk perempuan yang berhasil membuat hari-hariku terasa jauh lebih hangat.",
-  "Terima kasih sudah hadir dengan caramu sendiri—dengan tawamu, ceritamu, manjamu, bahkan diam kecilmu. Semua itu adalah bagian yang selalu ingin kujaga.",
-  "Di umurmu yang baru, aku tidak hanya berharap semua mimpimu tercapai. Aku juga berharap kamu selalu ingat bahwa kamu dicintai, kamu cukup, dan kamu pantas mendapatkan segala hal baik di dunia.",
-  "Semoga nanti, ketika kita melihat kembali hari ini, kita masih bisa tersenyum dan berkata: ternyata kita sudah berjalan sejauh ini, ya."
+  "selamat ulang tahun yang ke 21 tahunn sayang... 🤍🤍✨",
+  "semoga di usia yang baru inii, banyak hal hal yang baik yang akan datang yaa sayangg. semogaa kamuu diberii kesehatann, kebahagiaan, dan yang terpenting orang-orang yang selalu menghargai keberadaanmu yaaa!! 🌷💋",
+  "di umur kamuu yang sekarangg, aku juga berharap kamu selalu ingett kaloo kamu ituu dicintai,disayangii, kamu lebii darii cukup, dan kamu jugaa pantess dapett hal-hal yang baik sayang.. 🫶",
+  "makasii jugaa sayangg sudaa samaa aku teruss, meskipunn banyak hal hal paitnya yang kita alamii, tapii aku bersyukurr bisa sama kamuu lagi jugaa sayangg 🤍",
+  "pokoknyaa sekarangg, enjoy your dayy!! 🥳🤍, meskipun tahun ini kamu banyak sedihnyaa, tapii semoga kedepannya bisaa lebii banyak lagii hal hal yang bisa kamu bikin bahagiaa yaa sayangg.. POKOKNYAA HARUSS SENYUM TERUS, BAHAGIA TERUS, CERIA TERUSS, IM HERE FOR U SAYANG 🤍💋 "
 ];
 
 let soundOn = true;
@@ -30,7 +31,6 @@ let memoryAnimationTimer = null;
 let memoryRenderToken = 0;
 let sceneTransitionTimer = null;
 let musicInterludeTimer = null;
-let loveCalculationTimer = null;
 let galleryTypingTimer = null;
 let galleryTypingFinishTimer = null;
 const backgroundMusic = document.getElementById("backgroundMusic");
@@ -49,8 +49,8 @@ function updateLoading(value) {
   document.querySelector(".love-loader").setAttribute("aria-valuenow", String(loadingValue));
 
   const message = document.getElementById("loadingMessage");
-  if (loadingValue >= 78) message.textContent = "Hampir siap, tinggal menambahkan sedikit rasa sayang";
-  else if (loadingValue >= 42) message.textContent = "Menyimpan senyum-senyum favoritmu";
+  if (loadingValue >= 78) message.textContent = "";
+  else if (loadingValue >= 42) message.textContent = "";
 }
 
 function showPinScreen() {
@@ -225,7 +225,7 @@ function updateGalleryEnding() {
   const text = document.getElementById("galleryEndingText");
   const button = document.getElementById("openLetterAfterGallery");
   if (letterCompleted) {
-    title.innerHTML = "Semua ceritanya sudah lengkap.<br><em>Satu kejutan lagi?</em>";
+    title.innerHTML = "<br><em>Satu hal lagi..</em>";
     text.textContent = "Kamu sudah melihat foto dan membaca semua kata yang kusimpan. Sekarang ada satu penutup kecil untukmu.";
     button.innerHTML = "Lihat kejutan terakhir <span>✦</span>";
   } else {
@@ -246,9 +246,9 @@ function showLetterEnding() {
   const text = document.getElementById("letterEndingText");
   const button = document.getElementById("continueAfterLetter");
   if (galleryCompleted) {
-    title.innerHTML = "Semua ceritanya sudah lengkap.<br><em>Satu kejutan lagi?</em>";
-    text.textContent = "Foto-fotonya sudah kamu lihat dan suratnya sudah kamu baca. Tinggal satu kejutan terakhir untukmu.";
-    button.innerHTML = "Lihat kejutan terakhir <span>✦</span>";
+    title.innerHTML = "<br><em>Satu hal lagi..</em>";
+    text.textContent = "";
+    button.innerHTML = "Lihat Hal Terakhir <span>✦</span>";
   } else {
     title.innerHTML = "Lihat foto-foto kita<br>sekarang, <em>yuk?</em>";
     text.textContent = "Suratnya sudah selesai, tapi masih ada beberapa kenangan yang ingin aku tunjukkan.";
@@ -273,24 +273,6 @@ function animateLetterEntrance() {
 
 function showFinalSurprise() {
   chime("soft");
-  const result = document.getElementById("calculatorResult");
-  const percentage = document.getElementById("lovePercentage");
-  const resultText = document.getElementById("loveResultText");
-  const calculateButton = document.getElementById("calculateLoveBtn");
-  const loveMeter = document.querySelector(".love-meter");
-  const progressBar = document.getElementById("loveProgress");
-  clearInterval(loveCalculationTimer);
-  document.getElementById("confetti").innerHTML = "";
-  result.classList.remove("calculating", "revealed");
-  loveMeter.classList.remove("revealed");
-  percentage.textContent = "?";
-  resultText.textContent = "Tekan tombolnya untuk menghitung";
-  document.getElementById("loveProgressFill").style.width = "0%";
-  document.getElementById("loveProgressHeart").style.left = "0%";
-  progressBar.setAttribute("aria-valuenow", "0");
-  progressBar.removeAttribute("aria-valuetext");
-  calculateButton.disabled = false;
-  calculateButton.innerHTML = "<span>♡</span> Tap untuk kalkulasi";
   showScene("finale");
 }
 
@@ -376,6 +358,17 @@ function readLetter() {
     envelope.setAttribute("aria-expanded", "true");
     envelope.setAttribute("tabindex", "-1");
     chime();
+
+    letter.forEach(text => {
+      const paragraph = document.createElement("p");
+      paragraph.textContent = text;
+      document.getElementById("letterBody").appendChild(paragraph);
+    });
+    letterStep = letter.length;
+    document.getElementById("letterProgress").style.width = "100%";
+    button.innerHTML = "Lanjutkan <span>→</span>";
+    document.getElementById("signature").classList.add("show");
+    return;
   }
   if (letterStep < letter.length) {
     const paragraph = document.createElement("p");
@@ -693,54 +686,6 @@ envelope.addEventListener("keydown", event => {
   readLetter();
 });
 document.getElementById("letterBtn").addEventListener("click", readLetter);
-document.getElementById("calculateLoveBtn").addEventListener("click", event => {
-  const button = event.currentTarget;
-  if (button.disabled) return;
-
-  const result = document.getElementById("calculatorResult");
-  const percentage = document.getElementById("lovePercentage");
-  const resultText = document.getElementById("loveResultText");
-  const loveMeter = document.querySelector(".love-meter");
-  const progressBar = document.getElementById("loveProgress");
-  const progressFill = document.getElementById("loveProgressFill");
-  const progressHeart = document.getElementById("loveProgressHeart");
-  let progressValue = 0;
-
-  button.disabled = true;
-  button.innerHTML = "<span>♡</span> Menghitung cinta...";
-  result.classList.add("calculating");
-  resultText.textContent = "Mencocokkan dua hati...";
-  percentage.textContent = "0%";
-
-  loveCalculationTimer = setInterval(() => {
-    progressValue = Math.min(100, progressValue + (progressValue < 72 ? 4 : 3));
-    percentage.textContent = `${progressValue}%`;
-    progressFill.style.width = `${progressValue}%`;
-    progressHeart.style.left = `${progressValue}%`;
-    progressBar.setAttribute("aria-valuenow", String(progressValue));
-
-    if (progressValue >= 72) resultText.textContent = "Hampir sampai... cintanya terlalu besar";
-    else if (progressValue >= 36) resultText.textContent = "Dua hati semakin terhubung...";
-
-    if (progressValue === 100) {
-      clearInterval(loveCalculationTimer);
-      setTimeout(() => {
-        result.classList.remove("calculating");
-        result.classList.add("revealed");
-        loveMeter.classList.add("revealed");
-        percentage.textContent = "unlimited%";
-        resultText.textContent = "Cinta Dzaky & Caca tidak ada batasnya ♡";
-        progressBar.setAttribute("aria-valuetext", "unlimited persen");
-        button.innerHTML = "<span>♥</span> Unlimited selamanya";
-        chime("final");
-        makeConfetti();
-        for (let index = 0; index < 15; index++) {
-          setTimeout(() => floatingHeart(innerWidth / 2 + (Math.random() - .5) * 260, innerHeight / 2 + (Math.random() - .5) * 100, index % 2 ? "♡" : "♥"), index * 45);
-        }
-      }, 260);
-    }
-  }, 380);
-});
 document.getElementById("restartBtn").addEventListener("click", () => {
   letterStep = 0;
   memoryIndex = 0;
