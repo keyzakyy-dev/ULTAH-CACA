@@ -104,11 +104,559 @@ footer{bottom:18px;font-size:12px;letter-spacing:.14em;text-shadow:0 2px 10px #7
 @media(max-width:700px){.scene-gallery .gallery{padding-top:5px}.gallery-time{margin:15px 0 20px;padding:13px}.gallery-time .time-heading{margin-bottom:10px}.gallery-time .time-grid b{font-size:19px}}
 
 /* Semua kenangan tampil sekaligus, tanpa navigasi slider */
-.memories-grid{display:grid;gap:72px;margin:30px auto 70px;max-width:1080px;grid-template-columns:repeat(2,minmax(280px,1fr))}.memory-item{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(220px,.92fr);align-items:center;gap:7%;opacity:0;animation:memoryReveal .9s var(--memory-delay) cubic-bezier(.18,.82,.25,1) forwards}.memory-item.memory-even{grid-template-columns:minmax(220px,.92fr) minmax(0,1.08fr)}.memory-item.memory-even .polaroid{order:2;transform:rotate(2deg)}.memory-item.memory-even .memory-copy{order:1;text-align:right}.memory-item.memory-even .memory-copy>span{left:auto;right:-15px}.memory-item .polaroid{width:100%}.memory-item .memory-copy{padding:20px}.memory-item .save-memory{margin-top:22px}.memory-item.memory-even .save-memory{margin-left:auto}.scene-gallery .memory-item.memory-even .polaroid{animation-name:galleryFloatEven}.gallery .gallery-ending{display:block;margin-bottom:30px}.gallery.ending .section-title,.gallery.ending .memories-grid{display:none}@keyframes memoryReveal{from{opacity:0;transform:translateY(42px) scale(.96);filter:blur(3px)}to{opacity:1;transform:none;filter:none}}@keyframes galleryFloatEven{0%,100%{transform:rotate(2deg) translateY(0)}50%{transform:rotate(.5deg) translateY(-10px)}}
-@media(max-width:700px){.memories-grid{gap:52px;margin:25px 0 55px}.memory-item,.memory-item.memory-even{grid-template-columns:1fr;gap:16px}.memory-item.memory-even .polaroid,.memory-item.memory-even .memory-copy{order:initial}.memory-item.memory-even .memory-copy{text-align:left}.memory-item.memory-even .memory-copy>span{left:-15px;right:auto}.memory-item .memory-copy{padding:12px 8px 0}.memory-item .polaroid{max-width:390px;margin:auto}}
-nochange
-body{overflow-x:hidden}.scene-gallery{overflow:clip;touch-action:pan-y;overscroll-behavior-y:auto}.scene-gallery .memory-item{content-visibility:auto;contain-intrinsic-size:auto 620px}.scene-gallery .polaroid{will-change:auto}.scene-gallery .photo,.scene-gallery .photo img{will-change:auto}
-@media(max-width:900px),(pointer:coarse){.scene-gallery .photo,.scene-gallery .photo img{animation:none!important}.scene-gallery .photo:before{filter:blur(10px) brightness(.78) saturate(.9)}.scene-gallery .ambient,.scene-gallery:before{animation-play-state:paused!important}}
+
+/* ================================
+   CONTAINER UTAMA GALERI
+================================ */
+
+.memories-grid {
+    width: 100%;
+    max-width: 1080px;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 36px;
+
+    margin: 30px auto 60px;
+    padding: 0 20px;
+
+    align-items: start;
+}
+
+
+/* ================================
+   ITEM FOTO
+================================ */
+
+.memory-item {
+    width: 100%;
+    min-width: 0;
+
+    display: block;
+
+    opacity: 0;
+
+    animation:
+        memoryReveal
+        .9s
+        var(--memory-delay)
+        cubic-bezier(.18, .82, .25, 1)
+        forwards;
+}
+
+
+/* ================================
+   POLAROID
+================================ */
+
+.memory-item .polaroid {
+    display: block;
+
+    width: 100%;
+    max-width: none;
+
+    margin: 0;
+
+    padding: 12px 12px 18px;
+
+    border: 1px solid rgba(255, 255, 255, .85);
+    border-radius: 24px;
+
+    background: #fff9f4;
+
+    box-shadow:
+        0 16px 40px rgba(102, 56, 69, .13);
+
+    transform: rotate(-1deg);
+
+    overflow: hidden;
+
+    cursor: zoom-in;
+
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease,
+        filter .35s ease;
+}
+
+
+/* Variasi polaroid */
+.memory-item:nth-child(even) .polaroid {
+    transform: rotate(1deg);
+}
+
+
+/* ================================
+   FOTO
+================================ */
+
+.memory-item .photo {
+    position: relative;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    border-radius: 17px;
+
+    background: #ead6d1;
+}
+
+
+/* Landscape */
+.memory-item .photo.landscape {
+    aspect-ratio: 3 / 2;
+}
+
+
+/* Portrait */
+.memory-item .photo.portrait {
+    aspect-ratio: 3 / 4;
+}
+
+
+/* Semua polaroid tetap mengikuti kolom */
+.memory-item .polaroid.landscape,
+.memory-item .polaroid.portrait {
+    width: 100%;
+}
+
+
+/* Foto asli */
+.memory-item .photo img {
+    position: relative;
+    z-index: 1;
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transform: none;
+
+    transition: transform .5s ease;
+}
+
+
+/* Tetap dukung konfigurasi fit-cover dari JS */
+.memory-item .photo.fit-cover img {
+    object-fit: cover;
+}
+
+
+/* ================================
+   BACKGROUND BLUR FOTO
+================================ */
+
+.memory-item .photo:before {
+    content: "";
+
+    position: absolute;
+    z-index: -2;
+
+    inset: -22px;
+
+    background-image: var(--photo-url);
+    background-position: center;
+    background-size: cover;
+
+    filter:
+        blur(18px)
+        brightness(.72)
+        saturate(.9);
+
+    transform: scale(1.12);
+}
+
+
+.memory-item .photo:after {
+    content: "";
+
+    position: absolute;
+    z-index: -1;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5e263820,
+            #f6d9cf12
+        );
+}
+
+
+/* ================================
+   CAPTION FOTO
+================================ */
+
+.memory-item .photo-caption {
+    min-height: 42px;
+
+    padding: 13px 5px 2px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    text-align: left;
+}
+
+
+.memory-item .photo-caption span {
+    flex-shrink: 0;
+
+    color: #9a777f;
+
+    font:
+        700 9px Arial,
+        sans-serif;
+
+    letter-spacing: .12em;
+
+    text-transform: uppercase;
+}
+
+
+.memory-item .photo-caption b {
+    min-width: 0;
+
+    color: var(--ink);
+
+    font:
+        italic 14px Georgia,
+        serif;
+
+    text-align: right;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+/* ================================
+   HOVER DESKTOP
+================================ */
+
+@media (hover: hover) {
+
+    .memory-item .polaroid:hover {
+        transform:
+            translateY(-8px)
+            rotate(0deg)
+            scale(1.015);
+
+        box-shadow:
+            0 25px 60px
+            rgba(102, 56, 69, .20);
+
+        filter: brightness(1.02);
+    }
+
+
+    .memory-item .polaroid:hover .photo img {
+        transform: scale(1.035);
+    }
+
+}
+
+
+/* ================================
+   ANIMASI MASUK
+================================ */
+
+@keyframes memoryReveal {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(35px)
+            scale(.97);
+
+        filter: blur(2px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform: none;
+
+        filter: none;
+    }
+
+}
+
+
+/* ================================
+   TABLET
+================================ */
+
+@media (max-width: 900px) {
+
+    .memories-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 24px;
+
+        padding: 0 14px;
+
+        margin-top: 26px;
+    }
+
+
+    .memory-item .polaroid {
+        padding:
+            10px
+            10px
+            16px;
+
+        border-radius: 21px;
+    }
+
+
+    .memory-item .photo {
+        border-radius: 15px;
+    }
+
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 700px) {
+
+    .scene-gallery .gallery {
+        width: 100%;
+
+        padding-top: 5px;
+    }
+
+
+    .memories-grid {
+        width: 100%;
+
+        grid-template-columns: 1fr;
+
+        gap: 28px;
+
+        margin:
+            24px
+            auto
+            40px;
+
+        padding:
+            0
+            8px;
+    }
+
+
+    .memory-item {
+        width: 100%;
+    }
+
+
+    .memory-item .polaroid,
+    .memory-item:nth-child(even) .polaroid,
+    .memory-item .polaroid.portrait,
+    .memory-item .polaroid.landscape {
+
+        width: 100%;
+
+        max-width: 480px;
+
+        margin:
+            0
+            auto;
+
+        padding:
+            10px
+            10px
+            16px;
+
+        border-radius: 20px;
+
+        transform: none;
+    }
+
+
+    .memory-item .photo {
+        border-radius: 14px;
+    }
+
+
+    /* Landscape mobile */
+    .memory-item .photo.landscape {
+        aspect-ratio: 3 / 2;
+
+        max-height: none;
+    }
+
+
+    /* Portrait mobile */
+    .memory-item .photo.portrait {
+        aspect-ratio: 3 / 4;
+
+        max-height: none;
+    }
+
+
+    .memory-item .photo-caption {
+        min-height: 38px;
+
+        padding:
+            11px
+            4px
+            0;
+    }
+
+
+    .memory-item .photo-caption span {
+        font-size: 8px;
+    }
+
+
+    .memory-item .photo-caption b {
+        font-size: 13px;
+    }
+
+}
+
+
+/* ================================
+   HP KECIL
+================================ */
+
+@media (max-width: 420px) {
+
+    .memories-grid {
+        padding:
+            0
+            2px;
+
+        gap: 22px;
+    }
+
+
+    .memory-item .polaroid,
+    .memory-item:nth-child(even) .polaroid {
+
+        padding:
+            8px
+            8px
+            14px;
+
+        border-radius: 17px;
+    }
+
+
+    .memory-item .photo {
+        border-radius: 12px;
+    }
+
+
+    .memory-item .photo-caption {
+        padding-top: 9px;
+    }
+
+}
+
+
+/* ================================
+   PENUTUP GALERI
+================================ */
+
+.gallery .gallery-ending {
+    display: block;
+
+    margin-bottom: 30px;
+}
+
+
+.gallery.ending .section-title,
+.gallery.ending .memories-grid,
+.gallery.ending .gallery-time {
+
+    display: none;
+}
+
+
+/* ================================
+   OPTIMASI PERFORMA
+================================ */
+
+.scene-gallery .memory-item {
+
+    content-visibility: auto;
+
+    contain-intrinsic-size:
+        auto
+        620px;
+}
+
+
+.scene-gallery .polaroid {
+
+    will-change: auto;
+}
+
+
+.scene-gallery .photo,
+.scene-gallery .photo img {
+
+    will-change: auto;
+}
+
+
+/* Matikan animasi gambar berat
+   tetapi pertahankan animasi kartu */
+
+.scene-gallery .photo,
+.scene-gallery .photo img {
+
+    animation: none !important;
+}
+
+
+.scene-gallery .photo img {
+
+    transform: none;
+}
+
+
+/* ================================
+   REDUCED MOTION
+================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .memory-item {
+
+        opacity: 1;
+
+        animation: none !important;
+    }
+
+
+    .memory-item .polaroid,
+    .memory-item .photo img {
+
+        animation: none !important;
+
+        transition: none !important;
+    }
+
+}
 
 /* Animasi ringan mobile dan penutup galeri tanpa ruang kosong */
 .scene-gallery{padding-bottom:38px}.scene-gallery .gallery{padding-bottom:0}.scene-gallery .gallery-ending{margin-bottom:0}.scene-gallery .memories-grid{margin-bottom:42px}
@@ -134,3 +682,112 @@ body{overflow-x:hidden}.scene-gallery{overflow:clip;touch-action:pan-y;overscrol
 @keyframes letterSparkle{0%,100%{opacity:.25;transform:translateY(5px) scale(.85)}50%{opacity:.8;transform:translateY(-5px) scale(1.08)}}
 @media(max-width:700px){.letter-scene-intro{width:100%;margin:4px auto 0;padding:0 4px}.letter-scene-intro h2{font-size:38px}.letter-scene-intro>p:last-child{font-size:12px}.letter-keepsakes{position:relative;inset:auto;display:flex;align-items:center;justify-content:center;gap:24px;height:88px;margin:13px auto 0}.letter-keepsakes>span{position:relative;inset:auto}.keepsake-date{width:105px;padding:13px}.keepsake-date b{font-size:17px}.keepsake-note{width:130px;padding:14px 11px}.letter-sparkles{inset:15px 0 30px}.postage-stamp{right:15px;top:15px;transform:rotate(5deg) scale(.78);transform-origin:top right}.scene-letter:not(.letter-reading) .envelope-wrap{min-height:560px}.scene-letter:not(.letter-reading) .envelope{margin-top:28px}.scene-letter.letter-reading .letter-scene-intro,.scene-letter.letter-reading .letter-keepsakes{display:none}.scene-letter:not(.letter-reading){padding-bottom:34px}.scene-letter:not(.letter-reading) .letter{padding-bottom:0}}
 @media(prefers-reduced-motion:reduce){.letter-sparkles span{animation:none!important}}
+
+/* =========================================
+   FINAL FIX - SATU SCROLLBAR
+========================================= */
+
+/*
+   Body tidak ikut scroll.
+   Setiap halaman .app menjadi scroll container utama.
+   Ini mengikuti struktur awal website.
+*/
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden !important;
+}
+
+/* APP = SATU-SATUNYA SCROLL CONTAINER */
+.app {
+    width: 100%;
+    height: 100svh !important;
+    min-height: 100svh !important;
+
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+}
+
+/* Galeri TIDAK BOLEH punya scrollbar sendiri */
+.scene-gallery {
+    height: 100svh !important;
+
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+
+    align-items: start;
+}
+
+/* Container isi galeri */
+.scene-gallery .gallery {
+    width: min(1060px, 100%);
+
+    height: auto !important;
+    min-height: 100%;
+
+    overflow: visible !important;
+
+    margin: 0 auto;
+    padding-bottom: 75px;
+}
+
+/* Grid foto */
+.scene-gallery .memories-grid {
+    height: auto !important;
+    max-height: none !important;
+
+    overflow: visible !important;
+}
+
+/* Item foto */
+.scene-gallery .memory-item {
+    overflow: visible !important;
+
+    content-visibility: visible !important;
+    contain: none !important;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 700px) {
+
+    html,
+    body {
+        height: 100%;
+        overflow: hidden !important;
+    }
+
+    .app {
+        height: 100svh !important;
+        min-height: 100svh !important;
+
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+
+        padding:
+            88px
+            14px
+            60px;
+    }
+
+    .scene-gallery {
+        height: 100svh !important;
+
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+    }
+
+    .scene-gallery .gallery {
+        overflow: visible !important;
+    }
+
+}
