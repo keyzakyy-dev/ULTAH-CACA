@@ -572,44 +572,92 @@ async function saveMemoryCard(index = memoryIndex, triggerButton = null) {
   }, 1800);
 }
 
-const relationshipStart = new Date(2025, 1, 27, 0, 0, 0);
+const relationshipStart = new Date("2025-02-27T00:00:00");
 
 function calculateTimeTogether() {
   const now = new Date();
-  if (now < relationshipStart) return;
+
+  // Jika tanggal sekarang masih sebelum tanggal mulai
+  if (now < relationshipStart) {
+    return;
+  }
+
+  // Hitung tahun dan bulan kalender
+  let years = now.getFullYear() - relationshipStart.getFullYear();
+  let months = now.getMonth() - relationshipStart.getMonth();
+
+  // Koreksi jika tanggal bulan ini belum mencapai tanggal 27
+  if (now.getDate() < relationshipStart.getDate()) {
+    months--;
+  }
+
+  // Koreksi jika bulan menjadi negatif
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+
+  // Tentukan tanggal terakhir setelah tahun + bulan penuh
+  const lastAnniversary = new Date(
+    relationshipStart.getFullYear() + years,
+    relationshipStart.getMonth() + years * 0 + months,
+    relationshipStart.getDate(),
+    relationshipStart.getHours(),
+    relationshipStart.getMinutes(),
+    relationshipStart.getSeconds()
+  );
+
+  // Cara lebih aman untuk menentukan tanggal acuan
   const cursor = new Date(relationshipStart);
-  let years = 0;
-  let months = 0;
+  cursor.setFullYear(cursor.getFullYear() + years);
+  cursor.setMonth(cursor.getMonth() + months);
 
-  while (true) {
-    const next = new Date(cursor);
-    next.setFullYear(next.getFullYear() + 1);
-    if (next > now) break;
-    cursor.setFullYear(cursor.getFullYear() + 1);
-    years++;
+  // Hitung sisa waktu
+  const difference = now.getTime() - cursor.getTime();
+
+  const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+  const hours = Math.floor(
+    (difference / (1000 * 60 * 60)) % 24
+  );
+  const minutes = Math.floor(
+    (difference / (1000 * 60)) % 60
+  );
+  const seconds = Math.floor(
+    (difference / 1000) % 60
+  );
+
+  // Tampilkan ke HTML
+  const yearsElement = document.getElementById("yearsTogether");
+  const monthsElement = document.getElementById("monthsTogether");
+  const daysElement = document.getElementById("daysTogether");
+  const hoursElement = document.getElementById("hoursTogether");
+  const minutesElement = document.getElementById("minutesTogether");
+  const secondsElement = document.getElementById("secondsTogether");
+
+  if (
+    !yearsElement ||
+    !monthsElement ||
+    !daysElement ||
+    !hoursElement ||
+    !minutesElement ||
+    !secondsElement
+  ) {
+    return;
   }
 
-  while (true) {
-    const next = new Date(cursor);
-    next.setMonth(next.getMonth() + 1);
-    if (next > now) break;
-    cursor.setMonth(cursor.getMonth() + 1);
-    months++;
-  }
-
-  const remaining = now - cursor;
-  const days = Math.floor(remaining / 86400000);
-  const hours = Math.floor(remaining / 3600000) % 24;
-  const minutes = Math.floor(remaining / 60000) % 60;
-  const seconds = Math.floor(remaining / 1000) % 60;
-
-  document.getElementById("yearsTogether").textContent = years;
-  document.getElementById("monthsTogether").textContent = months;
-  document.getElementById("daysTogether").textContent = days;
-  document.getElementById("hoursTogether").textContent = String(hours).padStart(2, "0");
-  document.getElementById("minutesTogether").textContent = String(minutes).padStart(2, "0");
-  document.getElementById("secondsTogether").textContent = String(seconds).padStart(2, "0");
+  yearsElement.textContent = years;
+  monthsElement.textContent = months;
+  daysElement.textContent = days;
+  hoursElement.textContent = String(hours).padStart(2, "0");
+  minutesElement.textContent = String(minutes).padStart(2, "0");
+  secondsElement.textContent = String(seconds).padStart(2, "0");
 }
+
+// Jalankan langsung
+calculateTimeTogether();
+
+// Update setiap 1 detik
+setInterval(calculateTimeTogether, 1000);
 
 document.getElementById("giftBtn").addEventListener("click", openGift);
 document.getElementById("giftBtn").addEventListener("pointerdown", openGift);
@@ -712,5 +760,3 @@ document.getElementById("app").addEventListener("pointerdown", event => {
 });
 
 renderMemory();
-calculateTimeTogether();
-setInterval(calculateTimeTogether, 1000);
